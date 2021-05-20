@@ -1,5 +1,4 @@
-from mpu6050 import   teste, button_callback,print_data ,mpu6050_init, mpu6050_get_temp_celsius, mpu6050_get_gyro_values, mpu6050_get_accel_values
-
+from mpu6050 import button_callback, print_data, mpu6050_init
 
 while True:
     mpu6050_init()
