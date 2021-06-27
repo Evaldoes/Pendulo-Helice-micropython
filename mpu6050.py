@@ -3,8 +3,8 @@ from time import sleep
 
 MPU6050_ADDR = 0x68  # Endereço I2C padrão para o MPU6050
 i2c = I2C(1, scl=Pin(22), sda=Pin(21), freq=400000)
-mpu6050_int = Pin(2, Pin.IN, Pin.PULL_UP)
-led = Pin(2, Pin.OUT)
+# mpu6050_int = Pin(2, Pin.IN, Pin.PULL_UP)
+# led = Pin(2, Pin.OUT)
 button = Pin(5, Pin.IN, Pin.PULL_UP)
 
 # endereços Power Management (Hex)
@@ -42,7 +42,7 @@ def mpu6050_init():
 
 
 def teste():
-    mpu6050_int.irq(trigger=Pin.IRQ_FALLING, handler=print_data())
+    # mpu6050_int.irq(trigger=Pin.IRQ_FALLING, handler=print_data())
     print('entrou aqui')
 
 
@@ -105,6 +105,6 @@ def print_data():
     sleep(1.5)
 
 
-def button_callback():
-    # print('entrou aqui')
-    button.irq(trigger=Pin.IRQ_FALLING, handler=lambda t: led.value(not led.value()))
+# def button_callback():
+#     print('entrou aqui')
+#     button.irq(trigger=Pin.IRQ_FALLING, handler=lambda t: led.value(not led.value()))

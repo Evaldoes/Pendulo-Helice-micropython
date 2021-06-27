@@ -1,0 +1,20 @@
+Metadata-Version: 1.1
+Name: animate
+Version: 1.1.4.7
+Summary: Animation Screen
+Home-page: https://github.com/justahackers/animate
+Author: JustAHacker
+Author-email: rafasyahagung@gmail.com
+License: MIT
+Download-URL: https://github.com/JustAHackers/animate/blob/master/animate-0.2.tar.gz
+Description: UNKNOWN
+Keywords: screen,python,animation
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
