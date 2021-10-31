@@ -42,7 +42,7 @@ def emulated_plant(gyroInput):
     message = '{},{},{}\n'.format(counter, outputOld,systemOutput)
     counter += 1
     uart2.write(message.encode())
-    print('rodando...')
+    print(message)
     return systemOutput
 
 
