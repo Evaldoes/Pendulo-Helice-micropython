@@ -34,6 +34,7 @@ def initializeSerialPort():
 def lineTreatment(line):
     treatedLine = []
     line_as_list = line.split(b',')
+    # print(line_as_list)
 
     for idx, val in enumerate(line_as_list):
         if idx == 0:
@@ -104,14 +105,19 @@ def saveDataInFile():
     while True:
         try:
             readedLine = serialPort.readline()
+            print(readedLine)
+
             treatedLine = lineTreatment(readedLine)
             with open(fileName, 'a') as file:
-                file.write('{} {} {}\n'.format(treatedLine[0], treatedLine[1], treatedLine[2]))
+                # print('arquivo aberto')
+                file.write('{}\n'.format( str(treatedLine[1])))
+                # print('escreveu no arquivo')
         except:
+            # print('arquivo aberto')
             file.close()
+            serialPort.close()
             print('Keyboard Interrupt')
             break
-
 if __name__ == '__main__':
     initializeSerialPort()
     saveDataInFile()

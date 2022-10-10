@@ -3,9 +3,6 @@ from time import sleep
 
 MPU6050_ADDR = 0x68  # Endereço I2C padrão para o MPU6050
 i2c = I2C(1, scl=Pin(22), sda=Pin(21), freq=400000)
-# mpu6050_int = Pin(2, Pin.IN, Pin.PULL_UP)
-# led = Pin(2, Pin.OUT)
-button = Pin(5, Pin.IN, Pin.PULL_UP)
 
 # endereços Power Management (Hex)
 PWR_MGMT_1 = 0x6B
@@ -35,6 +32,8 @@ GYRO_ZOUT_H = 0x47
 GYRO_ZOUT_L = 0x48
 GYRO_SENSITIVITY_LSBG = 131.0  # bits menos significativos por grau por segundo
 
+# i2c.writeto_mem(MPU6050_ADDR, PWR_MGMT_1, bytes([0]))
+# i2c.writeto_mem(MPU6050_ADDR, INT_ENABLE, bytes([1]))  # enable interrupt on data ready (DATA_READ_EN)
 
 def mpu6050_init():
     i2c.writeto_mem(MPU6050_ADDR, PWR_MGMT_1, bytes([0]))
@@ -46,12 +45,6 @@ def teste():
     print('entrou aqui')
 
 
-# def interrupt_data():
-#     mpu6050_init()
-#     # mpu6050_int = Pin(2, Pin.IN, Pin.PULL_UP)
-#     mpu6050_int.irq(trigger=Pin.IRQ_FALLING, handler=print_data)
-#
-
 def combine_register_values(highValue, lowValue):
     if not highValue[0] & 0x80:
         return highValue[0] << 8 | lowValue[0]
@@ -59,14 +52,14 @@ def combine_register_values(highValue, lowValue):
 
 
 def mpu6050_get_temp_celsius():
-    mpu6050_init()
+    # mpu6050_init()
     temp_high = i2c.readfrom_mem(MPU6050_ADDR, TEMP_OUT_H, 1)
     temp_low = i2c.readfrom_mem(MPU6050_ADDR, TEMP_OUT_L, 1)
     return (combine_register_values(temp_high, temp_low) / TEMP_SENSITIVITY_LSBC) + TEMP_OFFSET
 
 
 def mpu6050_get_accel_values():
-    mpu6050_init()
+    # mpu6050_init()
     accel_x_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_H, 1)
     accel_x_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_XOUT_L, 1)
     accel_y_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_H, 1)
@@ -82,29 +75,25 @@ def mpu6050_get_accel_values():
 
 def mpu6050_get_gyro_values():
     mpu6050_init()
-    gyro_x_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_H, 1)
-    gyro_x_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_XOUT_L, 1)
-    gyro_y_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_H, 1)
-    gyro_y_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_L, 1)
-    gyro_z_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_ZOUT_H, 1)
-    gyro_z_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_ZOUT_L, 1)
-    return [
-        combine_register_values(gyro_x_high, gyro_x_low) / GYRO_SENSITIVITY_LSBG,
-        combine_register_values(gyro_y_high, gyro_y_low) / GYRO_SENSITIVITY_LSBG,
-        combine_register_values(gyro_z_high, gyro_z_low) / GYRO_SENSITIVITY_LSBG,
-    ]
+    try:
+        gyro_x_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_H, 1)
+        gyro_x_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_XOUT_L, 1)
+        gyro_y_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_H, 1)
+        gyro_y_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_YOUT_L, 1)
+        gyro_z_high = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_ZOUT_H, 1)
+        gyro_z_low = i2c.readfrom_mem(MPU6050_ADDR, ACCEL_ZOUT_L, 1)
+        return [
+            combine_register_values(gyro_x_high, gyro_x_low) / GYRO_SENSITIVITY_LSBG,
+            combine_register_values(gyro_y_high, gyro_y_low) / GYRO_SENSITIVITY_LSBG,
+            combine_register_values(gyro_z_high, gyro_z_low) / GYRO_SENSITIVITY_LSBG,
+        ]
+    except:
+        pass
 
 
 def print_data():
     print("Temperature:\t", mpu6050_get_temp_celsius(), "°C")
     print("Accelerometer:\t", mpu6050_get_accel_values(), "g")
     print("Gyroscope:\t", mpu6050_get_gyro_values(), "°/s")
-    # mpu6050_int.value(not mpu6050_int.value())
-    # led.value(not led.value())
     print("\n\n")
     sleep(1.5)
-
-
-# def button_callback():
-#     print('entrou aqui')
-#     button.irq(trigger=Pin.IRQ_FALLING, handler=lambda t: led.value(not led.value()))
