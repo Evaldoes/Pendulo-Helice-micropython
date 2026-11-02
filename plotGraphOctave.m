@@ -1,4 +1,4 @@
-datafile = load('pendulum_data_09-05-2022_12:51:20.txt');
+datafile = load('data/pendulum_data_09-05-2022_12-51-20.txt');
 
 x = linspace(0,500,0.4)
 %hour = datafile(:,1);

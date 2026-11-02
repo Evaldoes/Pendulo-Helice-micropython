@@ -58,8 +58,6 @@ if (isCalibrated == False):
 # import gc
 # gc.collect()
 #
-# ssid = 'NET VIRTUA C50'
-# password = '2222148330'
 #
 # station = network.WLAN(network.STA_IF)
 #

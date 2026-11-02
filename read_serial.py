@@ -101,7 +101,7 @@ def printLine():
         print(serialPort.readline())
 
 def saveDataInFile():
-    fileName = 'pendulum_data_' + datetime.now().strftime("%m-%d-%Y_%H:%M:%S") + '.txt'
+    fileName = 'data/pendulum_data_' + datetime.now().strftime("%m-%d-%Y_%H-%M-%S") + '.txt'
     while True:
         try:
             readedLine = serialPort.readline()
